@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Digital Clock</title>
+  <style>
+    /* General Styling */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(120deg, #ff9a9e, #fad0c4, #fad0c4, #a18cd1, #fbc2eb, #a1c4fd, #c2e9fb);
+      background-size: 300% 300%;
+      animation: colorShift 20s ease infinite;
+    }
+
+    /* Background animation for gradient */
+    @keyframes colorShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Clock container with a soft blur effect */
+    .clock-container {
+      position: relative;
+      padding: 50px;
+      border-radius: 25px;
+      background: rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+      backdrop-filter: blur(15px);
+      text-align: center;
+    }
+
+    /* Clock text styling with glow and 3D effect */
+    .clock {
+      font-size: 90px;
+      font-weight: bold;
+      color: #ffffff;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(255, 255, 255, 0.2);
+      animation: glowEffect 2s ease-in-out infinite alternate;
+    }
+
+    /* Subtle glowing effect */
+    @keyframes glowEffect {
+      0% { text-shadow: 0 4px 10px rgba(0, 0, 0, 0.4), 0 8px 20px rgba(255, 255, 255, 0.2); }
+      100% { text-shadow: 0 6px 15px rgba(0, 0, 0, 0.6), 0 12px 30px rgba(255, 255, 255, 0.3); }
+    }
+
+    /* Date text styling */
+    .date {
+      font-size: 28px;
+      color: rgba(255, 255, 255, 0.85);
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      margin-top: 15px;
+    }
+
+    /* Animated particle overlay */
+    .particle-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      background: url('https://www.transparenttextures.com/patterns/asfalt-light.png');
+      opacity: 0.1;
+      animation: particleShift 30s linear infinite;
+    }
+
+    /* Particle animation */
+    @keyframes particleShift {
+      0% { transform: translate(0, 0); }
+      100% { transform: translate(-100%, -100%); }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="clock-container">
+    <div class="particle-overlay"></div>
+    <div id="clock" class="clock">00:00:00</div>
+    <div id="date" class="date">Loading date...</div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      
+      // Format time
+      let hours = String(now.getHours()).padStart(2, '0');
+      let minutes = String(now.getMinutes()).padStart(2, '0');
+      let seconds = String(now.getSeconds()).padStart(2, '0');
+
+      // Display the time
+      document.getElementById('clock').textContent = `${hours}:${minutes}:${seconds}`;
+      
+      // Format date
+      const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+      const formattedDate = now.toLocaleDateString(undefined, options);
+
+      // Display the date
+      document.getElementById('date').textContent = formattedDate;
+    }
+
+    // Update clock every second
+    setInterval(updateClock, 1000);
+    updateClock(); // Initial call to display immediately on load
+  </script>
+
+</body>
+</html>
